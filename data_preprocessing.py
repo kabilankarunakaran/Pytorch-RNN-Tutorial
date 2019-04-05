@@ -4,6 +4,7 @@ import re
 from nltk.corpus import stopwords
 from collections import Counter
 import numpy as np
+from nltk.stem import PorterStemmer
 
 #class preprocessing_data(object):
 #    def __init__(self,path):
@@ -18,11 +19,13 @@ def cleaning_imdb(text):
     Input : String
     Output : String
     '''
+    ps = PorterStemmer()
     stopwords_eng = set(stopwords.words("english"))
     imdb_text = text.lower()
     imdb_text = re.sub("[^a-z]"," ",imdb_text)
     split_words = [word for word in imdb_text.split() if word not in stopwords_eng]
-    imdb_text = " ".join(split_words)
+    stem_words = [ps.stem(word) for word in split_words]
+    imdb_text = " ".join(stem_words)
     return imdb_text
 
 def tokenize(text):

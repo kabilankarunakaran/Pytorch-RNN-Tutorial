@@ -13,7 +13,7 @@ class imdb_dataset(Dataset):
     '''
     def __init__(self,path_csv):
         self.df = pd.read_csv(path_csv,encoding="latin-1")
-        self.word_to_index = word_index(self.df)
+        self.word_to_index = word_index(self.df,5)
         self.df['review'] = self.df['review'].apply(self.indexify)
         self.df['review'] = self.df['review'].apply(pad_data)
         #self.df['review'] = torch.Tensor(self.df['review'])
