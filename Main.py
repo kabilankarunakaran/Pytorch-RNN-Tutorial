@@ -26,7 +26,7 @@ test_dataloader = DataLoader(dataset = test_loader, batch_size = 1024, shuffle =
 
 #Taking the vocab size
 train_data = pd.read_csv('train_data.csv')
-input_size = word_index(train_data,5)
+input_size = word_index(train_data,10)
 input_vocab = len(input_size)
 
 #initialsing the RNN model
@@ -83,6 +83,7 @@ def eval_model(model,test_data,criterion):
     total = 0
     correct = 0
     accuracy = 0
+    count = 0
     model.eval()
     with torch.no_grad():
         for test_review,test_label in test_data:
@@ -93,7 +94,9 @@ def eval_model(model,test_data,criterion):
             eval_loss += loss.item()
             total += test_label.size(0)
             correct += (pred_idx == test_label).sum()
+            count += 1
         accuracy = 100 * correct / float(total)
+        eval_loss = eval_loss/count
     return eval_loss,accuracy
 
 for epoch in range(5):
